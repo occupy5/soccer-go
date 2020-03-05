@@ -1,0 +1,30 @@
+{
+  "name": "soccer-go",
+  "version": "1.0.0",
+  "description": "Get the five league schedule",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/occupy5/soccer-go.git"
+  },
+  "keywords": [
+    "cli",
+    "soccer"
+  ],
+  "author": "Fan Shen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/occupy5/soccer-go/issues"
+  },
+  "homepage": "https://github.com/occupy5/soccer-go#readme",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.3",
+    "commander": "^4.1.1",
+    "easy-table": "^1.1.1",
+    "progress": "^2.0.3",
+    "superagent": "^5.2.2"
+  }
+}
