@@ -4,8 +4,11 @@ const superagent = require('superagent')
 const Table = require('easy-table')
 const ProgressBar = require('progress')
 const program = require('commander')
+const fs = require('fs')
 const country = process.argv[2]
 const url = `https://soccer.hupu.com/${country}/`
+const file = 'match.md'
+let writeFlag = false
 // 进度条
 const bar = new ProgressBar('进度 [:bar] :percent :info', {
   complete: '️⚽️ ',
@@ -27,16 +30,41 @@ const main = async () => {
   bar.tick(5, {
     info: '成功获取比赛信息'
   })
-  // 4. 完成
+  // 4. 写入信息
+  const matchTable = t.toString()
+  if(writeFlag) {
+    fs.appendFile(file, matchTable, 'utf-8', function(err) {
+      if (err) throw err
+      // console.log('已写入比赛赛程');
+      else {
+        bar.tick(5, {
+          info: '已写入比赛赛程'
+        })
+      }
+      // bar.tick(5, {
+      //   info: '完成'
+      // })
+      console.log('比赛信息如下：' + '\r\n' + matchTable)
+    })
+  } else {
+  // 5. 完成
   bar.tick(5, {
-    info: '完成'
+    info: '完成，未写入比赛信息'
   })
-  console.log('比赛信息如下：' + '\r\n' + t.toString())
+  console.log('比赛信息如下：' + '\r\n' + matchTable)
+  }
 }
+
+program
+  .option('-w, --write [file]', 'write info to file')
 
 program
   .command('*')
   .action(() => {
+    if(program.write) {
+      writeFlag = true
+      console.log(`信息将会写入 ${file}`)
+    }
     main()
   })
 program.parse(process.argv)
@@ -50,9 +78,7 @@ function getMatch(html) {
   const apponent = matchList.find('.england-match-infor')
   for (let i = 0; i < matchList.length; i++) {
     const matchTime = $(time[i]).text().trim()
-    const front = matchTime.slice(0, 5)
-    const end = matchTime.slice(5)
-    const newTime = front + ' ' + end
+    const newTime = matchTime.slice(0, 5) + ' ' + matchTime.slice(5)
     const matchApponent = $(apponent[i]).text().trim().replace(/\s+/g, '⚔')
     const info = {
       date: newTime,
