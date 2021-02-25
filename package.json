@@ -1,6 +1,6 @@
 {
   "name": "soccer-go",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Get the five league schedule",
   "main": "index.js",
   "scripts": {
